@@ -14,17 +14,17 @@
  * @param {number} value
  * @returns {{ value: number, left: null, right: null }}
  */
-export const createNode = (value) => ({
+export const createNode = value => ({
   value,
   left: null,
-  right: null,
+  right: null
 });
 
 // ─── Core Operations ─────────────────────────────────────────────────────────
 
 /**
  * Inserta un valor en el árbol.
- * 
+ *
  * BUG #1: Esta función siempre inserta a la derecha.
  * BUG #2: No maneja el caso en que `node` es null desde el inicio
  *         (falla silenciosamente en el primer insert si el root es null).
@@ -40,17 +40,18 @@ export const insert = (node, value) => {
 
   // BUG: La comparación siempre va a la derecha
   // Debería ir a la izquierda cuando value < node.value
-  if (value > node.value) {
+  if (value < node.value) {
     return {
       ...node,
-      right: insert(node.right, value),
+      left: insert(node.left, value)
     };
   }
 
-  if (value > node.value) { // ← BUG: condición duplicada e incorrecta
+  if (value > node.value) {
+    // ← BUG: condición duplicada e incorrecta
     return {
       ...node,
-      right: insert(node.right, value),
+      right: insert(node.right, value)
     };
   }
 
@@ -72,7 +73,7 @@ export const search = (node, value) => {
   if (node === null) return null;
 
   // BUG: == permite coerción: search(root, "10") === search(root, 10)
-  if (node.value == value) return node; // eslint-disable-line eqeqeq
+  if (node.value === value) return node; // eslint-disable-line eqeqeq
 
   if (value < node.value) {
     return search(node.left, value);
@@ -93,7 +94,7 @@ export const search = (node, value) => {
  * @param {object|null} node
  * @returns {number[]}
  */
-export const inOrder = (node) => {
+export const inOrder = node => {
   // TODO: Implementar
   return [];
 };
@@ -106,7 +107,7 @@ export const inOrder = (node) => {
  * @param {object|null} node
  * @returns {number[]}
  */
-export const preOrder = (node) => {
+export const preOrder = node => {
   // TODO: Implementar
   return [];
 };
@@ -119,7 +120,7 @@ export const preOrder = (node) => {
  * @param {object|null} node
  * @returns {number[]}
  */
-export const postOrder = (node) => {
+export const postOrder = node => {
   // TODO: Implementar
   return [];
 };
@@ -139,7 +140,7 @@ export const postOrder = (node) => {
  * @param {object|null} node
  * @returns {object|null} - Nodo en formato react-d3-tree, o null
  */
-export const toD3Format = (node) => {
+export const toD3Format = node => {
   if (node === null) return null;
 
   const children = [];
@@ -147,15 +148,15 @@ export const toD3Format = (node) => {
   // BUG: Si node.left es null pero node.right no, nunca se agrega node.right
   if (node.left !== null) {
     children.push(toD3Format(node.left));
+  }
 
-    if (node.right !== null) {
-      children.push(toD3Format(node.right));
-    }
+  if (node.right !== null) {
+    children.push(toD3Format(node.right));
   }
 
   return {
     name: String(node.value),
-    children,
+    children
   };
 };
 
@@ -168,7 +169,7 @@ export const toD3Format = (node) => {
  * @param {object|null} node
  * @returns {number}
  */
-export const getHeight = (node) => {
+export const getHeight = node => {
   // TODO: Implementar
   return 0;
 };
@@ -179,5 +180,4 @@ export const getHeight = (node) => {
  * @param {number} max
  * @returns {number}
  */
-export const randomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
+export const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
