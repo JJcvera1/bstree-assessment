@@ -20,14 +20,13 @@ import styles from "./BSTVisualizer.module.css";
 // BUG #5 (Performance): Esta función se recrea en cada render.
 // Cuando el árbol tiene 20+ nodos, el re-render se siente lento.
 // Pista: ¿qué hook de React sirve para memoizar una función?
-const getTraversalResult = (root, type) => {
-   switch (type) {
-      case "inOrder": return inOrder(root);
-      case "preOrder": return preOrder(root);
-      case "postOrder": return postOrder(root);
-      default: return [];
-   }
-};
+const traversalResult = useMemo(
+   () =>
+      activeTraversal
+         ? getTraversalResult(root, activeTraversal)
+         : [],
+   [root, activeTraversal]
+);
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
