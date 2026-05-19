@@ -15,6 +15,19 @@ import { insert, search, inOrder, preOrder, postOrder, toD3Format, randomInt } f
 import TraversalPanel from "./TraversalPanel";
 import SearchBar from "./SearchBar";
 
+const getTraversalResult = (node, traversal) => {
+   switch (traversal) {
+      case "inOrder":
+         return inOrder(node);
+      case "preOrder":
+         return preOrder(node);
+      case "postOrder":
+         return postOrder(node);
+      default:
+         return [];
+   }
+};
+
 import styles from "./BSTVisualizer.module.css";
 
 // BUG #5 (Performance): Esta función se recrea en cada render.
